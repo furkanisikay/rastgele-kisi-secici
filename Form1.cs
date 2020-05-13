@@ -161,9 +161,9 @@ namespace Rastgele_Üretici
             else
             {
                 MetroMessageBox.Show(this, "Kişi İsimlerinin Bulunduğu Dosya Bulunamadı\nKişiler Gömülü dosyadan Listeye Eklenecektir!!", "NoviceHacker®", MessageBoxButtons.OK, MessageBoxIcon.Warning, 200);
-                string[] kisiler = Properties.Resources.kisiler.Split('\n');
-                File.WriteAllLines(kisilerdosyası, kisiler, encoding);
-                IcerikYukle(kisiler);
+                string kisiler = Properties.Resources.kisiler;
+                File.WriteAllText(kisilerdosyası, kisiler, encoding);
+                IcerikYukle(File.ReadAllLines(kisilerdosyası, encoding));
             }
         }
 
