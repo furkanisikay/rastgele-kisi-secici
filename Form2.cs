@@ -12,9 +12,11 @@ namespace Rastgele_Üretici
 {
     public partial class Form2 : Form
     {
-        public Form2()
+        public Form2(string yazi,Color renk)
         {
             InitializeComponent();
+            label1.Text = yazi;
+            label1.ForeColor = renk;
         }
     }
 }

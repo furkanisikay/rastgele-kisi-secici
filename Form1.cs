@@ -16,57 +16,34 @@ namespace Rastgele_Üretici
 {
     public partial class Form1 : MetroForm
     {
+        public string kisilerdosyası = Application.StartupPath + @"\kisiler.txt";
+        readonly Random uret = new Random();
+        readonly Color[] renkler = { Color.Red, Color.Blue, Color.DarkViolet, Color.HotPink, Color.Green, Color.Orange };
+        private readonly Encoding encoding = Encoding.GetEncoding("iso-8859-9");
+
         public Form1()
         {
             CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
         }
-        public string kisilerdosyası = Application.StartupPath + @"\kisiler.txt";
-        Random uret = new Random();
-        Color[] renkler = { Color.Red, Color.Blue, Color.DarkViolet, Color.HotPink, Color.Green, Color.Orange };
-        //string[] kisiler = { };
-        //string[] secilenkisiler = { };
-        //Form2 fr2 = (Form2)Application.OpenForms["Form2"];
-        //Form3 fr3 = (Form3)Application.OpenForms["Form3"];
-        //private void form2baslatt()
-        //{
-        //    Form2 frm2 = new Form2();
-        //    Application.Run(frm2);
-        //    frm2.Hide();
-        //}
-        //private void form3baslatt()
-        //{
-        //    Form3 frm3 = new Form3();
-        //    Application.Run(frm3);
-        //    frm3.Hide();
-        //}
 
-        private void formortala(Form form)
-        {
-            form.Top = (Screen.PrimaryScreen.Bounds.Height / 2) - (form.Height / 2);
-            form.Left = (Screen.PrimaryScreen.Bounds.Width / 2) - (form.Width / 2);
-        }
-
-
-        //Form2 fr2 = (Form2)Application.OpenForms["Form2"];
         private void btnCreate_Click(object sender, EventArgs e)
         {
             int secilen = uret.Next(0, lstKisiler.Items.Count);
             int secilenrenk = uret.Next(0, renkler.Count());
 
-            if(chck_secilenler.Checked == true)
+            if(chck_secilenler.Checked)
             {
                 try
                 {
                     lblDurum.ForeColor = renkler[secilenrenk];
                     lblDurum.Text = lstKisiler.Items[secilen].ToString();
-                    //new Form2().Show();
-                    //fr2.lblSecilenKisi.ForeColor = renkler[secilenrenk];
-                    //fr2.lblSecilenKisi.Text = lstKisiler.Items[secilen].ToString();
                     lstCekilenler.Items.Add(lstKisiler.Items[secilen].ToString());
-                    lstKisiler.Items.Remove(lstKisiler.Items[secilen].ToString());
+                    lstKisiler.Items.RemoveAt(secilen);
                     lblSecilebilecekkisiler.Text = "Seçilebilecek Kişi Sayısı : " + lstKisiler.Items.Count.ToString();
                     lblSecilenkisiler.Text = "Seçilen Kişi Sayısı : " + lstCekilenler.Items.Count.ToString();
+
+                    SecileniGoster(lstKisiler.Items[secilen].ToString(), renkler[secilenrenk]);
                 }
                 catch(ArgumentOutOfRangeException)
                 {
@@ -78,9 +55,20 @@ namespace Rastgele_Üretici
             }
             else
             {
-                lblDurum.Text = string.Format("Seçilen Kişi:\n{0}", lstKisiler.Items[secilen].ToString());
+                lblDurum.ForeColor = renkler[secilenrenk];
+                lblDurum.Text = lstKisiler.Items[secilen].ToString();
+                SecileniGoster(lstKisiler.Items[secilen].ToString(), renkler[secilenrenk]);
             }
-                
+
+
+        }
+
+        private void SecileniGoster(string v, Color color)
+        {
+            using (Form2 frm2 = new Form2(v,color))
+            {
+                frm2.ShowDialog();
+            }
         }
 
         private void metroLink1_Click(object sender, EventArgs e)
@@ -95,25 +83,22 @@ namespace Rastgele_Üretici
 
         private void btnDefault_Click(object sender, EventArgs e)
         {
-            if (File.Exists(kisilerdosyası))
+            lstKisiler.Items.Clear();
+
+            if (!File.Exists(kisilerdosyası))
             {
-                lstKisiler.Items.Clear();
                 string kisiler = Properties.Resources.kisiler;
-                File.WriteAllText(kisilerdosyası, kisiler);
-                string[] isimler = File.ReadAllLines(kisilerdosyası, Encoding.GetEncoding(1254));
-                foreach (string isim in isimler)
+                File.WriteAllText(kisilerdosyası, kisiler, encoding);
+            }
+
+            string[] isimler = File.ReadAllLines(kisilerdosyası, encoding);
+            IcerikYukle(isimler);
+            if (lstCekilenler.Items.Count > 0)
+            {
+                if ((MetroMessageBox.Show(this, "Çekilenler Listesi Temizlensinmi?", "NoviceHacker®", MessageBoxButtons.YesNo, MessageBoxIcon.Question, 100)) == DialogResult.Yes)
                 {
-                    lstKisiler.Items.Add(isim);
-                }
-                lblSecilebilecekkisiler.Text = "Seçilebilecek Kişi Sayısı : " + lstKisiler.Items.Count.ToString();
-                lblSecilenkisiler.Text = "Seçilen Kişi Sayısı : " + lstCekilenler.Items.Count.ToString();
-                if (lstCekilenler.Items.Count > 0)
-                {
-                    if ((MetroMessageBox.Show(this, "Çekilenler Listesi Temizlensinmi?", "NoviceHacker®", MessageBoxButtons.YesNo, MessageBoxIcon.Error, 100)) == DialogResult.Yes)
-                    {
-                        lstCekilenler.Items.Clear();
-                        lblSecilenkisiler.Text = "Seçilen Kişi Sayısı : " + lstCekilenler.Items.Count.ToString();
-                    }
+                    lstCekilenler.Items.Clear();
+                    lblSecilenkisiler.Text = "Seçilen Kişi Sayısı : " + lstCekilenler.Items.Count.ToString();
                 }
             }
         }
@@ -125,26 +110,12 @@ namespace Rastgele_Üretici
 
         private void btnShow_Click(object sender, EventArgs e)
         {
-            this.Width = 685;
-            btnShow.Visible = false;
-            btnHide.Visible = true;
-            btnClose.Location = new Point(642, 10);
-            btnTopMostON.Location = new Point(602, 10);
-            btnTopMostOFF.Location = new Point(602, 10);
-            btnMinimize.Location = new Point(562, 10);
-            lblBaslik.FontWeight = MetroLinkWeight.Bold;
+            UzunGorunum(true);
         }
 
         private void btnHide_Click(object sender, EventArgs e)
         {
-            this.Width = 307;
-            btnHide.Visible = false;
-            btnShow.Visible = true;
-            btnClose.Location = new Point(270, 10);
-            btnTopMostON.Location = new Point(230, 10);
-            btnTopMostOFF.Location = new Point(230, 10);
-            btnMinimize.Location = new Point(190, 10);
-            lblBaslik.FontWeight = MetroLinkWeight.Regular;
+            UzunGorunum(false);
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -160,16 +131,12 @@ namespace Rastgele_Üretici
 
         private void btnTopMostOFF_Click(object sender, EventArgs e)
         {
-            this.TopMost = true;
-            btnTopMostOFF.Visible = false;
-            btnTopMostON.Visible = true;
+            Sabitle(false);
         }
 
         private void btnTopMostON_Click(object sender, EventArgs e)
         {
-            this.TopMost = false;
-            btnTopMostON.Visible = false;
-            btnTopMostOFF.Visible = true;
+            Sabitle(true);
         }
 
         private void lstKisiler_ControlAdded(object sender, ControlEventArgs e)
@@ -184,43 +151,69 @@ namespace Rastgele_Üretici
 
         private void bckwrk_FormLoad_DoWork(object sender, DoWorkEventArgs e)
         {
+            UzunGorunum(false);
+            Ortala(this);
             if (File.Exists(kisilerdosyası))
             {
-                string[] isimler = File.ReadAllLines(kisilerdosyası, Encoding.GetEncoding(1254));
-                foreach (string isim in isimler)
-                {
-                    lstKisiler.Items.Add(isim);
-                }
-                this.Width = 307;
-                btnClose.Location = new Point(270, 10);
-                btnTopMostON.Location = new Point(230, 10);
-                btnTopMostOFF.Location = new Point(230, 10);
-                btnMinimize.Location = new Point(190, 10);
-                lblBaslik.FontWeight = MetroLinkWeight.Regular;
-                lblSecilebilecekkisiler.Text = "Seçilebilecek Kişi Sayısı : " + lstKisiler.Items.Count.ToString();
-                lblSecilenkisiler.Text = "Seçilen Kişi Sayısı : " + lstCekilenler.Items.Count.ToString();
+                string[] isimler = File.ReadAllLines(kisilerdosyası, encoding);
+                IcerikYukle(isimler);
             }
             else
             {
-                MetroMessageBox.Show(this, "Kişi İsimlerinin Bulunduğu Dosya Bulunamadı\nKişiler Gömülü dosyadan Listeye Eklenecektir!!", "NoviceHacker®", MessageBoxButtons.OK, MessageBoxIcon.Error, 200);
-                string kisiler = Properties.Resources.kisiler;
-                File.WriteAllText(kisilerdosyası, kisiler);
-                string[] isimler = File.ReadAllLines(kisilerdosyası, Encoding.GetEncoding(1254));
-                foreach (string isim in isimler)
-                {
-                    lstKisiler.Items.Add(isim);
-                }
+                MetroMessageBox.Show(this, "Kişi İsimlerinin Bulunduğu Dosya Bulunamadı\nKişiler Gömülü dosyadan Listeye Eklenecektir!!", "NoviceHacker®", MessageBoxButtons.OK, MessageBoxIcon.Warning, 200);
+                string[] kisiler = Properties.Resources.kisiler.Split('\n');
+                File.WriteAllLines(kisilerdosyası, kisiler, encoding);
+                IcerikYukle(kisiler);
+            }
+        }
+
+        private void IcerikYukle(string[] isimler)
+        {
+            foreach (string isim in isimler)
+            {
+                lstKisiler.Items.Add(isim);
+            }
+            lblSecilebilecekkisiler.Text = "Seçilebilecek Kişi Sayısı : " + lstKisiler.Items.Count.ToString();
+            lblSecilenkisiler.Text = "Seçilen Kişi Sayısı : " + lstCekilenler.Items.Count.ToString();
+        }
+
+        private void UzunGorunum(bool uzunmu)
+        {
+            if (uzunmu)
+            {
+                this.Width = 685;
+                btnShow.Visible = false;
+                btnHide.Visible = true;
+                btnClose.Location = new Point(642, 10);
+                btnTopMostON.Location = new Point(602, 10);
+                btnTopMostOFF.Location = new Point(602, 10);
+                btnMinimize.Location = new Point(562, 10);
+                lblBaslik.FontWeight = MetroLinkWeight.Bold;
+            }
+            else
+            {
                 this.Width = 307;
+                btnHide.Visible = false;
+                btnShow.Visible = true;
                 btnClose.Location = new Point(270, 10);
                 btnTopMostON.Location = new Point(230, 10);
                 btnTopMostOFF.Location = new Point(230, 10);
                 btnMinimize.Location = new Point(190, 10);
                 lblBaslik.FontWeight = MetroLinkWeight.Regular;
-                lblSecilebilecekkisiler.Text = "Seçilebilecek Kişi Sayısı : " + lstKisiler.Items.Count.ToString();
-                lblSecilenkisiler.Text = "Seçilen Kişi Sayısı : " + lstCekilenler.Items.Count.ToString();
             }
-            formortala(this);
         }
 
+        private void Sabitle(bool value)
+        {
+            this.TopMost = !value;
+            btnTopMostOFF.Visible = value;
+            btnTopMostON.Visible = !value;
+        }
+
+        private void Ortala(Form form)
+        {
+            form.Top = (Screen.PrimaryScreen.Bounds.Height / 2) - (form.Height / 2);
+            form.Left = (Screen.PrimaryScreen.Bounds.Width / 2) - (form.Width / 2);
+        }
     }
 }
