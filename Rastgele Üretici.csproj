@@ -98,7 +98,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\kisiler" />
     <None Include="Resources\random mavi.png" />
   </ItemGroup>
   <ItemGroup>

@@ -98,8 +98,8 @@ namespace Rastgele_Üretici
             if (File.Exists(kisilerdosyası))
             {
                 lstKisiler.Items.Clear();
-                byte[] kisiler = Properties.Resources.kisiler;
-                File.WriteAllBytes(kisilerdosyası, kisiler);
+                string kisiler = Properties.Resources.kisiler;
+                File.WriteAllText(kisilerdosyası, kisiler);
                 string[] isimler = File.ReadAllLines(kisilerdosyası, Encoding.GetEncoding(1254));
                 foreach (string isim in isimler)
                 {
@@ -203,8 +203,8 @@ namespace Rastgele_Üretici
             else
             {
                 MetroMessageBox.Show(this, "Kişi İsimlerinin Bulunduğu Dosya Bulunamadı\nKişiler Gömülü dosyadan Listeye Eklenecektir!!", "NoviceHacker®", MessageBoxButtons.OK, MessageBoxIcon.Error, 200);
-                byte[] kisiler = Properties.Resources.kisiler;
-                File.WriteAllBytes(kisilerdosyası, kisiler);
+                string kisiler = Properties.Resources.kisiler;
+                File.WriteAllText(kisilerdosyası, kisiler);
                 string[] isimler = File.ReadAllLines(kisilerdosyası, Encoding.GetEncoding(1254));
                 foreach (string isim in isimler)
                 {
