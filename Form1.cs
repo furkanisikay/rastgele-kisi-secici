@@ -48,7 +48,7 @@ namespace Rastgele_Üretici
                 catch(ArgumentOutOfRangeException)
                 {
                     lblDurum.Text = "...";
-                    // İkinci formda seçilen kişiyi ayrıca göstermek için kullanılabilir.
+                    // TODO: İkinci form ile senkron etiket güncellemesi eklendiğinde etkinleştir.
                     MetroMessageBox.Show(this, "Seçilecek Kişi Kalmadı!", "NoviceHacker®", MessageBoxButtons.OK, MessageBoxIcon.Error, 100);
                         
                 }
@@ -73,7 +73,7 @@ namespace Rastgele_Üretici
 
         private void metroLink1_Click(object sender, EventArgs e)
         {
-            // İkinci formu modeless açmak için kullanılabilir.
+            // TODO: Modeless ikinci form akışı tamamlandığında etkinleştir.
         }
 
         private void Form1_Load(object sender, EventArgs e)

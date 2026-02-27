@@ -45,7 +45,7 @@ msbuild "Rastgele Üretici.sln" /p:Configuration=Release
 Derleme sonrası uygulamayı çalıştırın:
 
 ```bash
-"bin\\Release\\Rastgele Üretici.exe"
+"bin/Release/Rastgele Üretici.exe"
 ```
 
 ## Ortam Kurulumu
