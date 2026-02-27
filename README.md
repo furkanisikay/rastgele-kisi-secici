@@ -1,34 +1,75 @@
-## **Rastgele Kişi Seçici**
+# Rastgele Kişi Seçici
 
-Kullanıcı tarafından oluşturulan listeden rastgele kişi seçmek için 2015'te yazdığım arayüzünü MetroFramework kullanarak kodladığım bir program.
+[![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.5-512BD4?logo=.net&logoColor=white)](https://dotnet.microsoft.com/)
+[![C%23](https://img.shields.io/badge/C%23-5.0%2B-239120?logo=c-sharp&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)
+[![Windows Forms](https://img.shields.io/badge/UI-Windows%20Forms-0078D6)](https://learn.microsoft.com/dotnet/desktop/winforms/)
+[![Lisans: MIT](https://img.shields.io/badge/Lisans-MIT-green.svg)](./LICENSE)
+
+## Neden Bu Proje?
+
+Rastgele Kişi Seçici; çekiliş, görev dağıtımı, sınıf içi seçim veya ekip içi adil atama gibi senaryolarda, bir kişi listesinden hızlı ve görsel olarak anlaşılır şekilde rastgele seçim yapma ihtiyacını çözer. Tekrarlı seçimleri engelleyebilmesi, sonuçları ayrı pencerede belirgin biçimde gösterebilmesi ve basit arayüzü sayesinde teknik olmayan kullanıcılar tarafından da rahatça kullanılabildiği için pratik ve değerli bir masaüstü aracıdır.
 
 ## Programdan Görüntüler
 ![Kısa Görünüm](https://i.hizliresim.com/hXDrS9.jpg)
 ![Detaylı Görünüm](https://i.hizliresim.com/Y3PNBZ.png)
 ![Seçim sonrası görüntü](https://i.hizliresim.com/3oZHxx.jpg)
 
-## Özellikler
+## Mimari / Özellikler
 
- - Seçilen kişi hem büyük yazı puntosuyla ayrı bir pencerede hemde ana pencere görüntülenebilir.
- - Her yeni seçimde seçilen kişinin rengi rastgele değiştirilir.
- - Seçilenler Listesi Tut Özelliği ile tekrarsız seçim yapabilme.
- - ESC veya Enter tuşu ile "Seçilen kişinin gösterildiği pencereyi" kısayoldan kapatabilirsiniz.
+- MetroFramework tabanlı **Windows Forms** arayüzü ile sade kullanım deneyimi.
+- Listeyi `kisiler.txt` dosyasından okuyarak başlangıç verisini otomatik yükleme.
+- "Seçilenleri listede tut" seçeneği ile **tekrarsız seçim** desteği.
+- Seçilen kişiyi ana formda ve ikinci formda büyük puntoyla gösterme.
+- Rastgele renk ataması ile seçilen sonucu görsel olarak vurgulama.
+- Gömülü kaynak (`Properties.Resources.kisiler`) ile eksik dosya durumunda güvenli geri yükleme.
 
-## Seçilenler Listesi Tut Özelliği
+## Kod Denetimi ve Güvenlik Notları
 
- - Eğer bu özellik aktif ise her seçilen kişi bir sonraki seçimde tekrar seçilmeyecektir. Ayrıca seçilen kişiler seçilenler listesinde(sağdaki), geriye kalanlar ise ana listede tutulur(soldaki).
+- Kod tabanı hardcoded şifre, API anahtarı ve sabit kullanıcı dizini (ör. `C:\Users\...`) açısından tarandı.
+- Mevcut sürümde kritik gizli bilgi sızıntısı tespit edilmedi.
+- Dosya yolu oluşturma satırı güvenli ve platform uyumlu yöntemle `Path.Combine(...)` kullanacak şekilde güncellendi.
+- İleride harici servis entegrasyonu eklenirse gizli bilgiler için `App.config` + çevresel değişken yaklaşımı tercih edilmelidir.
 
-## Kullanım
+## Refactoring (Yeniden Düzenleme) – Kritik 3 Adım
 
- 1. Programın bulunduğu dizine 1 defaya mahsus "kisiler.txt" adında bir dosya oluşturuyoruz.
- 2. Oluşturduğumuz dosyanın içine her bir satıra bir kişi gelecek şekilde seçilecek herkesi tanımlayacak bir metin yazıyoruz(isim / kullanıcı adı vs.)
- 3. Programı çalıştırınca, liste otomatik sizin oluşturduğunuz dosyaya göre doldurulacaktır. Liste doldurulunca sol orta taraftaki mavi çerçeveli karıştırma resmine tıklayarak rastgele bir kişi seçebilirsiniz.
- 
-## Kurulum
+1. **İş kurallarını form katmanından ayırma:** Rastgele seçim, dosya okuma ve sayaç güncelleme mantığını `SelectionService` benzeri ayrı sınıflara taşıyarak test edilebilirliği artırın.
+2. **Asenkron/iş parçacığı güvenliği iyileştirmesi:** `CheckForIllegalCrossThreadCalls = false` yaklaşımı yerine UI güncellemelerini `Invoke/BeginInvoke` ile güvenli hale getirin.
+3. **Hata yönetimini merkezileştirme:** `ArgumentOutOfRangeException` ile akış kontrolü yerine seçim öncesi öğe sayısı doğrulaması yaparak daha okunabilir ve sürdürülebilir kod elde edin.
 
- 1. Kaynak kodunun tamamını indirip. Visual Studio ile .sln uzantılı dosyayı çalıştırın.
- 2. Çözüm gezgininden projeye sağ tıklayarak tüm çözümü derleyin.
- 3. bin/Debug veya bin/Release klasörlerine girerek oluşan .exe dosyasını çalıştarak programı kullanabilirsiniz.(NOT : İlk defa kuruyorsanız, kullanım başlığı altında yazanları uyguladıktan sonra kullanabilirsiniz.)
+## Hızlı Başlangıç (2 Dakika)
 
-*Herkes faydalansın diye paylaşıyorum. İyi Kodlamalar :)*
-***NoviceHacker®***
+> Bu proje `net45` tabanlı klasik Windows Forms uygulamasıdır. En sorunsuz kurulum için **Windows + Visual Studio** önerilir.
+
+```bash
+git clone https://github.com/furkanisikay/rastgele-kisi-secici.git
+cd rastgele-kisi-secici
+nuget restore "Rastgele Üretici.sln"
+msbuild "Rastgele Üretici.sln" /p:Configuration=Release
+```
+
+Derleme sonrası uygulamayı çalıştırın:
+
+```bash
+"bin/Release/Rastgele Üretici.exe"
+```
+
+## Ortam Kurulumu
+
+1. **Gereksinimler**
+   - Windows 10/11
+   - Visual Studio 2019+ (Desktop development with .NET)
+   - .NET Framework 4.5 Developer Pack
+2. **Kişi listesi yapılandırması**
+   - Uygulama ilk açılışta çalışma dizininde `kisiler.txt` arar.
+   - Dosya yoksa gömülü varsayılan liste otomatik oluşturulur.
+   - Her satıra bir kişi gelecek şekilde `kisiler.txt` düzenleyebilirsiniz.
+3. **Paket bağımlılığı**
+   - `packages.config` üzerinden `MetroModernUI (1.3.5.0)` kullanılır.
+
+## Katkı
+
+Katkı sürecinin tamamı için [CONTRIBUTING.md](./CONTRIBUTING.md) dosyasına bakın.
+
+## Lisans
+
+Bu proje [MIT Lisansı](./LICENSE) ile lisanslanmıştır.
