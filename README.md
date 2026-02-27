@@ -1,7 +1,7 @@
 # Rastgele Kişi Seçici
 
 [![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.5-512BD4?logo=.net&logoColor=white)](https://dotnet.microsoft.com/)
-[![C%23](https://img.shields.io/badge/C%23-7.0%2B-239120?logo=c-sharp&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)
+[![C%23](https://img.shields.io/badge/C%23-5.0%2B-239120?logo=c-sharp&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)
 [![Windows Forms](https://img.shields.io/badge/UI-Windows%20Forms-0078D6)](https://learn.microsoft.com/dotnet/desktop/winforms/)
 [![Lisans: MIT](https://img.shields.io/badge/Lisans-MIT-green.svg)](./LICENSE)
 

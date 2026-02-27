@@ -48,7 +48,7 @@ namespace Rastgele_Üretici
                 catch(ArgumentOutOfRangeException)
                 {
                     lblDurum.Text = "...";
-                    // TODO: İkinci form ile senkron etiket güncellemesi eklendiğinde etkinleştir.
+                    // TODO: İkinci form ile senkron etiket güncellemesi eklenecek.
                     MetroMessageBox.Show(this, "Seçilecek Kişi Kalmadı!", "NoviceHacker®", MessageBoxButtons.OK, MessageBoxIcon.Error, 100);
                         
                 }
