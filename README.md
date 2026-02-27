@@ -9,6 +9,11 @@
 
 Rastgele Kişi Seçici; çekiliş, görev dağıtımı, sınıf içi seçim veya ekip içi adil atama gibi senaryolarda, bir kişi listesinden hızlı ve görsel olarak anlaşılır şekilde rastgele seçim yapma ihtiyacını çözer. Tekrarlı seçimleri engelleyebilmesi, sonuçları ayrı pencerede belirgin biçimde gösterebilmesi ve basit arayüzü sayesinde teknik olmayan kullanıcılar tarafından da rahatça kullanılabildiği için pratik ve değerli bir masaüstü aracıdır.
 
+## Programdan Görüntüler
+![Kısa Görünüm](https://i.hizliresim.com/hXDrS9.jpg)
+![Detaylı Görünüm](https://i.hizliresim.com/Y3PNBZ.png)
+![Seçim sonrası görüntü](https://i.hizliresim.com/3oZHxx.jpg)
+
 ## Mimari / Özellikler
 
 - MetroFramework tabanlı **Windows Forms** arayüzü ile sade kullanım deneyimi.
