@@ -131,8 +131,8 @@
     <None Include="Resources\kisiler.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+  <!-- Derleme sürecini özelleştirmek için aşağıdaki target alanlarına görev ekleyip yorumdan çıkarabilirsiniz.
+       Benzer genişletme noktaları için Microsoft.Common.targets dosyasına bakabilirsiniz.
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">

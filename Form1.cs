@@ -16,7 +16,7 @@ namespace Rastgele_Üretici
 {
     public partial class Form1 : MetroForm
     {
-        public string kisilerdosyası = Application.StartupPath + @"\kisiler.txt";
+        public string kisilerdosyası = Path.Combine(Application.StartupPath, "kisiler.txt");
         readonly Random uret = new Random();
         readonly Color[] renkler = { Color.Red, Color.Blue, Color.DarkViolet, Color.HotPink, Color.Green, Color.Orange };
         private readonly Encoding encoding = Encoding.GetEncoding("iso-8859-9");
@@ -48,7 +48,7 @@ namespace Rastgele_Üretici
                 catch(ArgumentOutOfRangeException)
                 {
                     lblDurum.Text = "...";
-                    //fr2.lblSecilenKisi.Text = "...";
+                    // İkinci formda seçilen kişiyi ayrıca göstermek için kullanılabilir.
                     MetroMessageBox.Show(this, "Seçilecek Kişi Kalmadı!", "NoviceHacker®", MessageBoxButtons.OK, MessageBoxIcon.Error, 100);
                         
                 }
@@ -73,7 +73,7 @@ namespace Rastgele_Üretici
 
         private void metroLink1_Click(object sender, EventArgs e)
         {
-            //fr2.Show();
+            // İkinci formu modeless açmak için kullanılabilir.
         }
 
         private void Form1_Load(object sender, EventArgs e)
